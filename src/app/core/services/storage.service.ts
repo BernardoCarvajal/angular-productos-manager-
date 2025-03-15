@@ -79,7 +79,7 @@ export class StorageService {
     });
   }
 
-  async updateProduct<T extends { id: number }>(item: T): Promise<T> {
+  async updateProduct<T extends { id?: number }>(item: T): Promise<T> {
     const db = await this.inicializarIndexedDB();
     return new Promise((resolve, reject) =>{
       const transaction = db.transaction(this.storeNombre, 'readwrite');

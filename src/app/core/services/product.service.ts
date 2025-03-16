@@ -3,12 +3,22 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs';
 import { StorageService } from './storage.service';
 
-export interface Product{
+export interface NewProduct{
   id?: number;
   nombre: string;
   descripcion?: string;
   date: string;
-  status: number;
+  status: ProductStatus;
+}
+
+export enum ProductStatus{
+  inicial = 1,
+  pendiente = 2,
+  completado = 3
+}
+
+export interface Product extends NewProduct{
+  id: number;
 }
 
 @Injectable({
@@ -47,7 +57,7 @@ export class ProductService {
 
   async addProduct(product: Omit<Product, 'id'>): Promise<Product>{
     try{
-      const newProduct = await this.storageService.addProduct<Product>(product);
+      const newProduct = await this.storageService.addProduct<Product>(product as Product);
       const currentProducts = this.productsSubject.value;
       this.productsSubject.next([...currentProducts, newProduct]);
       return newProduct;
@@ -84,7 +94,7 @@ export class ProductService {
     }
   }
 
-  async updateProductStatus(id: number, status: number): Promise<Product>{
+  async updateProductStatus(id: number, status: ProductStatus): Promise<Product>{
     const currentProducts = this.productsSubject.value;
     const product = currentProducts.find(p => p.id === id);
 

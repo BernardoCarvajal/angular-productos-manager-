@@ -1,1 +1,78 @@
-<p>lista-producto works!</p>
+<div>
+  <div>
+    <h1>Lista de Productos</h1>
+    <a routerLink="/productos/nuevo">
+      <button>Nuevo Producto</button>
+    </a>
+  </div>
+  
+  <app-filtro-producto 
+    [activeFilter]="activeFilter" 
+    (filterChange)="onFilterChange($event)">
+  </app-filtro-producto>
+  
+  <div>
+    <table border="1" style="width: 100%; border-collapse: collapse;">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngIf="(product$ | async) as products">
+          <tr *ngFor="let product of products">
+            <td>{{ product.nombre }}</td>
+            <td>{{ product.descripcion || 'Sin descripción' }}</td>
+            <td>{{ product.date| date:'dd/MM/yyyy' }}</td>
+            <td>
+              <app-badge [status]="product.status"></app-badge>
+            </td>
+            <td>
+              <div>
+                <a [routerLink]="['/productos/editar', product.id]">
+                  Editar
+                </a>
+                <button (click)="deleteProduct(product.id!)">
+                  Eliminar
+                </button>
+                <div>
+                  <button>
+                    Cambiar Estado
+                  </button>
+                  <div>
+                    <div>
+                      <button 
+                        *ngIf="product.status !== 1"
+                        (click)="updateStatus(product.id!, 1)">
+                        Inicial
+                      </button>
+                      <button 
+                        *ngIf="product.status !== 2"
+                        (click)="updateStatus(product.id!, 2)">
+                        Pendiente
+                      </button>
+                      <button 
+                        *ngIf="product.status !== 3"
+                        (click)="updateStatus(product.id!, 3)">
+                        Completado
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr *ngIf="products.length === 0">
+            <td colspan="5" style="text-align: center;">
+              No hay productos disponibles con el filtro actual.
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>

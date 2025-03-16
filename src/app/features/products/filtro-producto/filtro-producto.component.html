@@ -1,1 +1,7 @@
-<p>filtro-producto works!</p>
+<div>
+  <button 
+    *ngFor="let filter of filters"
+    (click)="onFilterClick(filter.value)">
+    {{ filter.label }}
+  </button>
+</div>

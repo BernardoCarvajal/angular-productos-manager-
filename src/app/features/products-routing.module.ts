@@ -9,15 +9,13 @@ const routes: Routes = [
     component: ListaProductoComponent
   },
   {
-    path: 'nuevoProducto',
+    path: 'nuevo',
     component: FormProductoComponent
   },
   {
     path: 'editar/:id',
     component: FormProductoComponent
   }
-  
-
 ];
 
 @NgModule({

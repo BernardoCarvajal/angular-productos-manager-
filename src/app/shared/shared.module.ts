@@ -3,24 +3,29 @@ import { CommonModule } from '@angular/common';
 import { ButtonComponent } from './componentes/button/button.component';
 import { BadgeComponent } from './componentes/badge/badge.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HeaderComponent } from './componentes/header/header.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
   declarations: [
     ButtonComponent,
-    BadgeComponent
+    BadgeComponent,
+    HeaderComponent,
   ],
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   exports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     ButtonComponent,
-    BadgeComponent
+    BadgeComponent,
+    HeaderComponent
   ]
 })
 export class SharedModule { }

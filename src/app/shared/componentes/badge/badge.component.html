@@ -1,3 +1,8 @@
-<span [ngClass]="statusColor" class="px-2 py-1 rounded-full text-xs font-medium">
-    {{ status }}
-</span>
+<div class="text-xs px-3 rounded-full py-1" 
+    [ngClass]="{
+      'bg-gray-200 text-gray-800': status === 1,
+      'bg-yellow-200 text-yellow-800': status === 2,
+      'bg-green-200 text-green-800': status === 3
+    }">
+  {{ status === 1 ? 'Inicial' : status === 2 ? 'Pendiente' : 'Completado' }}
+</div>

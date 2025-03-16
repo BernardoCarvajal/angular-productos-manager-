@@ -5,6 +5,7 @@ import { BadgeComponent } from './componentes/badge/badge.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from './componentes/header/header.component';
 import { RouterModule } from '@angular/router';
+import { DateFormatPipe } from './pipes/date-format/date-format.pipe';
 
 
 @NgModule({
@@ -12,6 +13,7 @@ import { RouterModule } from '@angular/router';
     ButtonComponent,
     BadgeComponent,
     HeaderComponent,
+    DateFormatPipe,
   ],
   imports: [
     CommonModule,
@@ -25,7 +27,8 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     ButtonComponent,
     BadgeComponent,
-    HeaderComponent
+    HeaderComponent,
+    DateFormatPipe
   ]
 })
 export class SharedModule { }

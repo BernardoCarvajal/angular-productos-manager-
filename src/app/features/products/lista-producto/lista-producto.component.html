@@ -64,7 +64,7 @@
           <tr *ngFor="let product of products" class="border-b border-gray-200">
             <td class="py-3 px-6 text-center">{{ product.nombre }}</td>
             <td class="py-3 px-6 text-center">{{ product.descripcion || 'Sin descripción' }}</td>
-            <td class="py-3 px-6 text-center">{{ product.date | date:'dd/MM/yyyy' }}</td>
+            <td class="py-3 px-6 text-center">{{ product.date | dateFormat }}</td>
             <td class="py-3 px-6 text-center">
               <app-badge [status]="product.status"></app-badge>
             </td>

@@ -7,7 +7,11 @@ import { FormProductoComponent } from './products/form-producto/form-producto.co
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
-
+import { NgxMaskDirective } from 'ngx-mask';
+import { DialogModule } from 'primeng/dialog';
+import { CalendarModule } from 'primeng/calendar';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -19,7 +23,11 @@ import { DashboardComponent } from './dashboard/dashboard.component';
   imports: [
     SharedModule,
     ProductsRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxMaskDirective,
+    DialogModule,
+    CalendarModule,
+
   ]
 })
 export class ProductsModule { }

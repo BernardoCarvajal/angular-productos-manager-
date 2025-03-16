@@ -2,16 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService, Product, ProductStatus } from '../../../core/services/product.service';
-import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-form-producto',
   standalone: false,
   templateUrl: './form-producto.component.html',
-  styleUrl: './form-producto.component.css'
+  styleUrl: './form-producto.component.css',
 })
 export class FormProductoComponent implements OnInit{
-
   productForm: FormGroup;
   isEditMode = false;
   productId: number | null = null;
@@ -50,10 +48,12 @@ export class FormProductoComponent implements OnInit{
   }
 
   private createForm(): FormGroup {
+    const today = new Date().toISOString().split('T')[0];
+    
     return this.fb.group({
       nombre: ['', [Validators.required]],
       descripcion: [''],
-      date: [new Date(), [Validators.required]],
+      date: [today, [Validators.required]],
       status: [ProductStatus.inicial, [Validators.required]]
     });
   }
@@ -62,7 +62,7 @@ export class FormProductoComponent implements OnInit{
     this.productForm.patchValue({
       nombre: '',
       descripcion: '',
-      date: new Date(),
+      date: new Date().toISOString().split('T')[0],
       status: ProductStatus.inicial
     });
   }
@@ -84,7 +84,7 @@ export class FormProductoComponent implements OnInit{
           this.productForm.patchValue({
             nombre: product.nombre,
             descripcion: product.descripcion,
-            date: new Date(product.date),
+            date: new Date(product.date).toISOString().split('T')[0],
             status: product.status
           });
           console.log('Formulario después de cargar:', this.productForm.value);
@@ -109,17 +109,14 @@ export class FormProductoComponent implements OnInit{
     try {
       const formValues = this.productForm.getRawValue();
       
-      const status = Number(formValues.status);
-      
       const productData = {
         nombre: formValues.nombre,
         descripcion: formValues.descripcion,
-        date: formValues.date instanceof Date ? formValues.date.toISOString() : formValues.date,
-        status: status
+        date: formValues.date,
+        status: Number(formValues.status)
       };
 
       console.log('Datos a enviar:', productData);
-      console.log('Tipo de status a enviar:', typeof productData.status, productData.status);
 
       if (this.isEditMode && this.productId !== null) {
         await this.productService.updateProduct({
@@ -133,6 +130,27 @@ export class FormProductoComponent implements OnInit{
       this.router.navigate(['/productos']);
     } catch (error) {
       console.error('Error al guardar producto:', error);
+    }
+  }
+
+  formatDate(date: string | null): string {
+    if (!date) return '';
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return '';
+    
+    const day = d.getDate().toString().padStart(2, '0');
+    const month = (d.getMonth() + 1).toString().padStart(2, '0');
+    const year = d.getFullYear();
+    
+    return `${day}/${month}/${year}`;
+  }
+
+  onDateChange(event: any): void {
+    const date = event.target.value;
+    if (date) {
+      this.productForm.patchValue({
+        date: date
+      });
     }
   }
 }

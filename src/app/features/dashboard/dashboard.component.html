@@ -4,9 +4,13 @@
   <div *ngIf="(stats$ | async) as stats">
     <!-- Tarjetas KPI -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-      <div class="bg-white p-6 rounded-lg shadow">
-        <h2 class="text-gray-500 text-sm uppercase tracking-wide mb-2">Total de Productos</h2>
-        <p class="text-3xl font-bold text-gray-800">{{ stats.total }}</p>
+
+        <div class="bg-white p-6 rounded-lg shadow">
+        <h2 class="text-gray-500 text-sm uppercase tracking-wide mb-2">Productos Iniciales</h2>
+        <p class="text-3xl font-bold text-blue-600">{{ stats.porEstado.inicial }}</p>
+        <p class="text-sm text-gray-500 mt-1" *ngIf="stats.total > 0">
+          {{ (stats.porEstado.completado / stats.total * 100) | number:'1.0-0' }}% del total
+        </p>
       </div>
       
       <div class="bg-white p-6 rounded-lg shadow">
@@ -23,6 +27,11 @@
         <p class="text-sm text-gray-500 mt-1" *ngIf="stats.total > 0">
           {{ (stats.porEstado.pendiente / stats.total * 100) | number:'1.0-0' }}% del total
         </p>
+      </div>
+
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h2 class="text-gray-500 text-sm uppercase tracking-wide mb-2">Total de Productos</h2>
+        <p class="text-3xl font-bold text-gray-800">{{ stats.total }}</p>
       </div>
     </div>
     

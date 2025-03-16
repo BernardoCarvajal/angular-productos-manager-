@@ -1,1 +1,66 @@
-<p>form-producto works!</p>
+<div>
+  <div>
+    <h1>{{ isEditMode ? 'Editar Producto' : 'Nuevo Producto' }}</h1>
+    <a routerLink="/productos">
+      <button>Volver a la lista</button>
+    </a>
+  </div>
+
+  <div>
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="nombre">Nombre *</label>
+        <input 
+          type="text" 
+          id="nombre" 
+          formControlName="nombre">
+        <div *ngIf="productForm.get('nombre')?.invalid && productForm.get('nombre')?.touched">
+          El nombre es obligatorio
+        </div>
+      </div>
+
+      <div>
+        <label for="descripcion">Descripción</label>
+        <textarea 
+          id="descripcion" 
+          formControlName="descripcion"
+          rows="3"></textarea>
+      </div>
+
+      <div>
+        <label for="date">Fecha *</label>
+        <input 
+          type="date" 
+          id="date" 
+          formControlName="date">
+        <div *ngIf="productForm.get('date')?.invalid && productForm.get('date')?.touched">
+          La fecha es obligatoria
+        </div>
+      </div>
+
+      <div>
+        <label for="status">Estado *</label>
+        <select 
+          id="status" 
+          formControlName="status">
+          <option *ngFor="let option of statusOption" [value]="option.value">
+            {{ option.label }}
+          </option>
+        </select>
+      </div>
+
+      <div>
+        <button 
+          type="button" 
+          routerLink="/productos">
+          Cancelar
+        </button>
+        <button 
+          type="submit"
+          [disabled]="productForm.invalid">
+          {{ isEditMode ? 'Actualizar' : 'Guardar' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -48,21 +48,29 @@ export class FormProductoComponent implements OnInit{
   }
 
   private createForm(): FormGroup {
-    const today = new Date().toISOString().split('T')[0];
+    const today = new Date();
+    const offset = today.getTimezoneOffset();
+    today.setMinutes(today.getMinutes() - offset);
+    const todayStr = today.toISOString().split('T')[0];
     
     return this.fb.group({
       nombre: ['', [Validators.required]],
       descripcion: [''],
-      date: [today, [Validators.required]],
+      date: [todayStr, [Validators.required]],
       status: [ProductStatus.inicial, [Validators.required]]
     });
   }
 
   private initializeNewProductForm(): void {
+    const today = new Date();
+    const offset = today.getTimezoneOffset();
+    today.setMinutes(today.getMinutes() - offset);
+    const todayStr = today.toISOString().split('T')[0];
+
     this.productForm.patchValue({
       nombre: '',
       descripcion: '',
-      date: new Date().toISOString().split('T')[0],
+      date: todayStr,
       status: ProductStatus.inicial
     });
   }
@@ -81,10 +89,14 @@ export class FormProductoComponent implements OnInit{
       if (product) {
         console.log('Cargando producto para editar:', product);
         setTimeout(() => {
+          const date = new Date(product.date + 'T00:00:00');
+          const offset = date.getTimezoneOffset();
+          date.setMinutes(date.getMinutes() - offset);
+
           this.productForm.patchValue({
             nombre: product.nombre,
             descripcion: product.descripcion,
-            date: new Date(product.date).toISOString().split('T')[0],
+            date: date.toISOString().split('T')[0],
             status: product.status
           });
           console.log('Formulario después de cargar:', this.productForm.value);
@@ -109,10 +121,14 @@ export class FormProductoComponent implements OnInit{
     try {
       const formValues = this.productForm.getRawValue();
       
+      const selectedDate = new Date(formValues.date);
+      selectedDate.setDate(selectedDate.getDate() + 1);
+      const formattedDate = selectedDate.toISOString().split('T')[0];
+      
       const productData = {
         nombre: formValues.nombre,
         descripcion: formValues.descripcion,
-        date: formValues.date,
+        date: formattedDate,
         status: Number(formValues.status)
       };
 
@@ -135,7 +151,7 @@ export class FormProductoComponent implements OnInit{
 
   formatDate(date: string | null): string {
     if (!date) return '';
-    const d = new Date(date);
+    const d = new Date(date + 'T00:00:00');
     if (isNaN(d.getTime())) return '';
     
     const day = d.getDate().toString().padStart(2, '0');

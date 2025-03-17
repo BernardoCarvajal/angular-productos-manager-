@@ -115,7 +115,6 @@ src/
 - Ordenamiento por todos los campos de la tabla.
 
 ## Futuras Mejoras
-- Implementación de PWA
 - Cambio a BBDD robusta
 - Exportación a CSV/Excel
 - Gráficos estadísticos

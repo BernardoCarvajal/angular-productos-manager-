@@ -6,8 +6,8 @@
         <a [routerLink]="item.path" 
            routerLinkActive="bg-indigo-700 text-white" 
            [routerLinkActiveOptions]="{exact: item.path === '/'}"
-           class="px-4 py-2 rounded-md font-medium transition-colors duration-200 
-                  hover:bg-indigo-600 hover:text-white text-indigo-700">
+           class="px-4 py-2 rounded-md font-medium transform transition-all duration-200 
+                  hover:bg-indigo-600 hover:text-white text-indigo-700 hover:scale-105">
           {{ item.label }}
         </a>
       </ng-container>

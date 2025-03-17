@@ -14,6 +14,7 @@ export class FormProductoComponent implements OnInit{
   isEditMode = false;
   productId: number | null = null;
   isLoading = false;
+  showNotification = false;
 
   productStatus = ProductStatus;
   statusOption = [
@@ -143,10 +144,18 @@ export class FormProductoComponent implements OnInit{
         await this.productService.addProduct(productData);
       }
 
+      this.showSaveNotification();
       this.router.navigate(['/productos']);
     } catch (error) {
       console.error('Error al guardar producto:', error);
     }
+  }
+
+  showSaveNotification(): void {
+    this.showNotification = true;
+    setTimeout(() => {
+      this.showNotification = false;
+    }, 3000);
   }
 
   formatDate(date: string | null): string {
